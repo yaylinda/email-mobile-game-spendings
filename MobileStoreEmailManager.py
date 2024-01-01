@@ -4,6 +4,8 @@ import os
 
 class MobileStoreEmailManager:
     def __init__(self, store_name: str, email_subject: str, mbox_file: str):
+        print('[{}] initing'.format(store_name))
+
         self._store_name = store_name
         self._email_subject = email_subject
         self._mbox_file = mbox_file
@@ -34,6 +36,16 @@ class MobileStoreEmailManager:
         if self._email_subject in subject:
             self._mbox.add(message)
             print('[{}][{}] added msg'.format(self._store_name, date))
+
+    def parse_messages(self):
+        for message in self._mbox:
+            if message.is_multipart():
+                for part in message.walk():
+                    if (part.get_content_type() == 'text/plain'
+                            or part.get_content_type() == 'text/html'):
+                        print(part.get_payload())
+            else:
+                print(message.get_payload())
 
     def close_mbox(self):
         self._mbox.close()
