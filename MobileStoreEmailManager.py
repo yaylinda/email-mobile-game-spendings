@@ -5,6 +5,7 @@ from typing import List
 import PurchasedItem
 from MessageContent import MessageContent, AppleMessageContent, \
     GPlayMessageContent
+from common import print_warning
 
 
 class MobileStoreEmailManager:
@@ -63,7 +64,6 @@ class MobileStoreEmailManager:
     
     def close_mbox(self):
         self._mbox.close()
-        print(f'[{self._store_name}] closed')
     
     def _load_all(self):
         for message in self._mbox:
@@ -98,10 +98,9 @@ class MobileStoreEmailManager:
                                 )
                             )
                         case _:
-                            print(
-                                f'[{self._store_name}] oops! unknown store name'
+                            print_warning(
+                                self._store_name,
+                                'unknown store name'
                             )
         else:
-            print(
-                f'[{self._store_name}] oops! not a multipart message'
-            )
+            print_warning(self._store_name, 'not a multipart message')

@@ -5,6 +5,7 @@ from typing import List
 from bs4 import BeautifulSoup, Tag
 
 from PurchasedItem import PurchasedItem
+from common import print_warning
 
 
 class MessageContent(ABC):
@@ -24,8 +25,9 @@ class MessageContent(ABC):
         price_matches = re.findall(r'\$\d+\.\d{2}', price_elem_str)
         
         if len(price_matches) != 1:
-            print(
-                f'[{self._store_name}] oops! could not parse price from "{price_elem_str}"'
+            print_warning(
+                self._store_name,
+                f'could not parse price from "{price_elem_str}"'
             )
             return None
         
@@ -51,13 +53,15 @@ class AppleMessageContent(MessageContent):
         )
         
         if len(item_cells) == 0 or len(price_cells) == 0:
-            print(
-                f'[{self._store_name}] oops! no items found for "{self._subject}" on {self._date}'
+            print_warning(
+                self._store_name,
+                f'no items found for "{self._subject}" on {self._date}'
             )
             return []
         if len(item_cells) != len(price_cells):
-            print(
-                f'[{self._store_name}] oops! item_cells and price_cells have different lengths for "{self._subject}" on {self._date}'
+            print_warning(
+                self._store_name,
+                f'item_cells and price_cells have different lengths for "{self._subject}" on {self._date}'
             )
             return []
         

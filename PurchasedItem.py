@@ -1,26 +1,7 @@
 from datetime import datetime
 from typing import Dict
 
-TAX_RATE = 0.0825
-
-KNOWN_GAMES = [
-    'Clash of Clans',
-    'Hearthstone',
-    'Clash Royale',
-    'Pokemon Go',
-    'Pixel Starships',
-    'SimCity BuildIt',
-    'Mr Love',
-]
-
-COLUMNS = [
-    'store',
-    'date',
-    'item',
-    'category',
-    'price',
-    'price_with_tax'
-]
+from common import COLUMNS, TAX_RATE, KNOWN_GAMES
 
 
 class PurchasedItem:
@@ -34,7 +15,7 @@ class PurchasedItem:
         self.store_name = store_name
         self.item_name = item_name
         self.price = price
-        self.purchased_date = purchased_date.replace("(GMT)", "")
+        self.purchased_date = purchased_date.replace("(GMT)", "").strip()
     
     def normalize_to_dict(self) -> Dict[str, str | float]:
         datum = {}
