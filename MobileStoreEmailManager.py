@@ -2,6 +2,7 @@ import mailbox
 import os
 from typing import List
 
+import PurchasedItem
 from MessageContent import MessageContent, AppleMessageContent, \
     GPlayMessageContent
 
@@ -27,9 +28,13 @@ class MobileStoreEmailManager:
         # Create the mbox object
         self._mbox = mailbox.mbox(mbox_file)
         self._load_all()
-
+        
         print(
-            '[{}] initialized! pre-exists={}, loaded {} messages'.format(store_name, self._mbox_pre_exists, len(self._mbox))
+            '[{}] initialized! pre-exists={}, loaded {} messages'.format(
+                store_name,
+                self._mbox_pre_exists,
+                len(self._mbox)
+                )
         )
     
     @property
@@ -49,10 +54,13 @@ class MobileStoreEmailManager:
             self._mbox.add(message)
             self._add_message_content(message)
     
-    def extract_purchases(self):
-        # TODO: loop
-        self._message_contents[0].parse_html()
-        return
+    def extract_purchases(self) -> List[PurchasedItem]:
+        purchases: List[PurchasedItem] = []
+        
+        for msg in self._message_contents:
+            purchases.extend(msg.get_purchases())
+        
+        return purchases
     
     def close_mbox(self):
         self._mbox.close()
@@ -91,13 +99,14 @@ class MobileStoreEmailManager:
                                 )
                             )
                         case _:
-                            print('[{}] oops! unknown store name'.format(self._store_name))
+                            print(
+                                '[{}] oops! unknown store name'.format(
+                                    self._store_name
+                                    )
+                                )
         else:
             print(
                 '[{}] oops! not a multipart message'.format(
                     self._store_name
                 )
             )
-    
-    
-    
