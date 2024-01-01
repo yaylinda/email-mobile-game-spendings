@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Tuple
 
-from common import COLUMNS, TAX_RATE, KNOWN_GAMES
+from common import COLUMNS, TAX_RATE, TOP_GAMES
 
 
 class PurchasedItem:
@@ -44,11 +44,9 @@ class PurchasedItem:
         return datum
     
     @staticmethod
-    def _get_item_category(item_name: str) -> str:
-        for g in KNOWN_GAMES:
-            if g in item_name:
-                return g
-        return 'OTHER'
+    def _get_item_category(item_name: str) -> Tuple[str, bool]:
+        # TODO
+        return 'OTHER', False
     
     def __repr__(self):
         return (
