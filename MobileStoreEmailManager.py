@@ -30,11 +30,7 @@ class MobileStoreEmailManager:
         self._load_all()
         
         print(
-            '[{}] initialized! pre-exists={}, loaded {} messages'.format(
-                store_name,
-                self._mbox_pre_exists,
-                len(self._mbox)
-            )
+            f'[{store_name}] initialized! pre-exists={self._mbox_pre_exists}, loaded {len(self._mbox)} messages'
         )
     
     @property
@@ -61,17 +57,13 @@ class MobileStoreEmailManager:
             purchases.extend(msg.get_purchases())
         
         print(
-            '[{}] got {} purchases across {} messages'.format(
-                self._store_name,
-                len(purchases),
-                len(self._message_contents)
-                )
-            )
+            f'[{self._store_name}] got {len(purchases)} purchases across {len(self._message_contents)} messages'
+        )
         return purchases
     
     def close_mbox(self):
         self._mbox.close()
-        print('[{}] closed'.format(self._store_name))
+        print(f'[{self._store_name}] closed')
     
     def _load_all(self):
         for message in self._mbox:
@@ -107,13 +99,9 @@ class MobileStoreEmailManager:
                             )
                         case _:
                             print(
-                                '[{}] oops! unknown store name'.format(
-                                    self._store_name
-                                )
+                                f'[{self._store_name}] oops! unknown store name'
                             )
         else:
             print(
-                '[{}] oops! not a multipart message'.format(
-                    self._store_name
-                )
+                f'[{self._store_name}] oops! not a multipart message'
             )

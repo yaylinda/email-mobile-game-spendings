@@ -33,13 +33,16 @@ def main():
         # Done using the all_emails mbox. Close it.
         mbox.close()
     
+    # Done using apple/gplay mboxes. Close them.
+    apple.close_mbox()
+    gplay.close_mbox()
+    
     # Now we can try to extract purchases from the emails
     apple_purchases = apple.extract_purchases()
     gplay_purchases = gplay.extract_purchases()
     
-    # Done using apple/gplay mboxes. Close them.
-    apple.close_mbox()
-    gplay.close_mbox()
+    # Export the data!
+    # TODO
 
 
 if __name__ == '__main__':
