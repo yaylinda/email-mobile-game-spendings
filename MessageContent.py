@@ -37,8 +37,8 @@ class AppleMessageContent(MessageContent):
                     self.store_name,
                     self.subject,
                     self.date
-                    )
                 )
+            )
             return []
         if len(item_cells) != len(price_cells):
             print(
@@ -46,17 +46,17 @@ class AppleMessageContent(MessageContent):
                     self.store_name,
                     self.subject,
                     self.date
-                    )
                 )
+            )
             return []
         
         purchases = []
         
         for i in range(len(item_cells)):
             item_elem: Tag = item_cells[i]
-            item_name = item_elem.find('span', class_='title').text
+            item_name = item_elem.find('span', class_='title').text.strip()
             
-            price_elem_str = price_cells[i].text
+            price_elem_str = price_cells[i].text.strip()
             prices = re.findall(r'\$\d+\.\d{2}', price_elem_str)
             if len(prices) != 1:
                 print(
@@ -77,5 +77,19 @@ class AppleMessageContent(MessageContent):
 
 class GPlayMessageContent(MessageContent):
     def get_purchases(self) -> List[PurchasedItem]:
-        # Implementation here
-        return []
+        item_rows = self.soup.find_all('tr', {'itemprop': 'acceptedOffer'})
+        
+        purchases = []
+        
+        for row in item_rows:
+            item_elem = row.find('span', {'itemprop': 'name'})
+            item_name = item_elem.text.strip()
+            
+            price_elem = row.find('span', {'itemprop': 'price'})
+            price = price_elem.text.strip()
+            
+            purchases.append(
+                PurchasedItem(self.store_name, item_name, price, self.date)
+                )
+        
+        return purchases

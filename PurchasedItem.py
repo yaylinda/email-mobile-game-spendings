@@ -10,3 +10,6 @@ class PurchasedItem:
         self.item_name = item_name
         self.price = price
         self.purchased_date = purchased_date
+        
+    def __repr__(self):
+        return f'Store Name: {self.store_name}, Item Name: {self.item_name}, Price: {self.price}, Purchase Date: {self.purchased_date}'
