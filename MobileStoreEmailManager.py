@@ -34,7 +34,7 @@ class MobileStoreEmailManager:
                 store_name,
                 self._mbox_pre_exists,
                 len(self._mbox)
-                )
+            )
         )
     
     @property
@@ -60,6 +60,13 @@ class MobileStoreEmailManager:
         for msg in self._message_contents:
             purchases.extend(msg.get_purchases())
         
+        print(
+            '[{}] got {} purchases across {} messages'.format(
+                self._store_name,
+                len(purchases),
+                len(self._message_contents)
+                )
+            )
         return purchases
     
     def close_mbox(self):
@@ -102,8 +109,8 @@ class MobileStoreEmailManager:
                             print(
                                 '[{}] oops! unknown store name'.format(
                                     self._store_name
-                                    )
                                 )
+                            )
         else:
             print(
                 '[{}] oops! not a multipart message'.format(

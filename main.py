@@ -16,11 +16,11 @@ def main():
     # Load the App Store or GPlay Store receipt emails
     if apple.mbox_pre_exists and gplay.mbox_pre_exists:
         print(
-            'skipping loading all_emails.mbox...'
+            '\nskipping loading all_emails.mbox...\n'
         )
     else:
         mbox = mailbox.mbox('all_emails.mbox')
-        print('loading all_emails.mbox...')
+        print('\nloading all_emails.mbox...\n')
         
         # Check to see if the message is from apple or gplay store,
         # and add it to the store's mbox file.
@@ -34,8 +34,8 @@ def main():
         mbox.close()
     
     # Now we can try to extract purchases from the emails
-    purchases = apple.extract_purchases()
-    print(purchases)
+    apple_purchases = apple.extract_purchases()
+    gplay_purchases = gplay.extract_purchases()
     
     # Done using apple/gplay mboxes. Close them.
     apple.close_mbox()

@@ -22,25 +22,33 @@ class MessageContent(ABC):
 
 class AppleMessageContent(MessageContent):
     def get_purchases(self) -> List[PurchasedItem]:
-        print('[{}] parsing purchases from html... "{}" on {}'.format(self.store_name, self.subject, self.date))
-        
         item_cells = self.soup.find_all(
             'td',
             class_='item-cell aapl-mobile-cell'
-            )
+        )
         price_cells = self.soup.find_all(
             'td',
             class_='price-cell aapl-mobile-cell'
-            )
+        )
         
         if len(item_cells) == 0 or len(price_cells) == 0:
-            print('\tno items found')
+            print(
+                '[{}] oops! no items found for "{}" on {}'.format(
+                    self.store_name,
+                    self.subject,
+                    self.date
+                    )
+                )
             return []
         if len(item_cells) != len(price_cells):
-            print('\titem_cells and price_cells have different lengths')
+            print(
+                '[{}] oops! item_cells and price_cells have different lengths for "{}" on {}'.format(
+                    self.store_name,
+                    self.subject,
+                    self.date
+                    )
+                )
             return []
-        
-        print('\tfound {} items'.format(len(item_cells)))
         
         purchases = []
         
@@ -52,11 +60,12 @@ class AppleMessageContent(MessageContent):
             prices = re.findall(r'\$\d+\.\d{2}', price_elem_str)
             if len(prices) != 1:
                 print(
-                    '\tfound {} prices for {}. expected 1'.format(
+                    '[{}] oops! got {} prices for {}. expected 1'.format(
+                        self.store_name,
                         len(prices),
                         item_name
-                        )
                     )
+                )
                 continue
             
             purchases.append(
