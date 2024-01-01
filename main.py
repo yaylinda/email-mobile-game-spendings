@@ -1,33 +1,36 @@
 import mailbox
 
-APP_STORE_SUBJECT = 'Your receipt from Apple'
-GPLAY_STORE_SUBJECT = 'Your Google Play Order Receipt'
+from MobileStoreEmailManager import MobileStoreEmailManager
 
 
 def main():
-    # Load the mbox file
-    mbox = mailbox.mbox('emails.mbox')
+    apple = MobileStoreEmailManager('apple', 'Your receipt from Apple', 'app_store.mbox')
+    gplay = MobileStoreEmailManager('gplay', 'Your Google Play Order Receipt', 'gplay_store.mbox')
 
-    num = 0
-    app_store = []
-    gplay_store = []
+    # Load the App Store or GPlay Store receipt emails
+    if apple.mbox_exists and gplay.mbox_exists:
+        print('apple and gplay already exist. skipping loading all_emails.mbox...')
+    else:
+        print('loading all_emails.mbox...')
+        mbox = mailbox.mbox('all_emails.mbox')
 
-    for message in mbox:
-        subject = message.get('subject', '')
-        num += 1
+        # Check to see if the message is from apple or gplay store,
+        # and add it to the store's mbox file.
+        for message in mbox:
+            if not apple.mbox_exists:
+                apple.add_message(message)
+            if not gplay.mbox_exists:
+                gplay.add_message(message)
 
-        if not isinstance(subject, str):
-            subject = str(subject)
+        # Done using the all_emails mbox. Close it.
+        mbox.close()
 
-        if APP_STORE_SUBJECT in subject:
-            app_store.append(message)
-            print('[#{}] {}'.format(num, subject))
-        if GPLAY_STORE_SUBJECT in subject:
-            gplay_store.append(message)
-            print('[#{}] {}'.format(num, subject))
+    # Now we can try to extract purchases from the emails
+    # TODO
 
-    print('got {} app_store emails'.format(len(app_store)))
-    print('got {} gplay_store emails'.format(len(gplay_store)))
+    # Done using apple/gplay mboxes. Close them.
+    apple.close_mbox()
+    gplay.close_mbox()
 
 
 if __name__ == '__main__':
