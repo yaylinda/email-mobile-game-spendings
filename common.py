@@ -69,7 +69,6 @@ OTHER_GAMES = [
     'Episode - Choose Your Story',
     'Expansion',
     'Flow Free',
-    'Flow Free',
     'Florence',
     'Heads Up',
     'Harry Potter: Wizards Unite',
