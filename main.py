@@ -7,12 +7,12 @@ def main():
     apple = MobileStoreEmailManager(
         'apple', 'Your receipt from Apple',
         'app_store.mbox'
-        )
+    )
     gplay = MobileStoreEmailManager(
         'gplay', 'Your Google Play Order Receipt',
         'gplay_store.mbox'
-        )
-
+    )
+    
     # Load the App Store or GPlay Store receipt emails
     if apple.mbox_exists and gplay.mbox_exists:
         print(
@@ -21,7 +21,7 @@ def main():
     else:
         print('loading all_emails.mbox...')
         mbox = mailbox.mbox('all_emails.mbox')
-
+        
         print('looking through all emails...')
         # Check to see if the message is from apple or gplay store,
         # and add it to the store's mbox file.
@@ -30,14 +30,14 @@ def main():
                 apple.add_message(message)
             if not gplay.mbox_exists:
                 gplay.add_message(message)
-
+        
         # Done using the all_emails mbox. Close it.
         mbox.close()
-
+    
     # Now we can try to extract purchases from the emails
     apple.get_messages_content()
     gplay.get_messages_content()
-
+    
     # Done using apple/gplay mboxes. Close them.
     apple.close_mbox()
     gplay.close_mbox()
