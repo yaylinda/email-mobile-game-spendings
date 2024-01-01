@@ -1,7 +1,7 @@
 import mailbox
 
 from MobileStoreEmailManager import MobileStoreEmailManager
-from common import write_csv, COLUMNS
+from common import write_csv, CSV_HEADERS
 
 
 def main():
@@ -44,7 +44,7 @@ def main():
     
     # Export the data to csv
     rows = [p.normalize_to_dict() for p in apple_purchases + gplay_purchases]
-    write_csv('data.csv', COLUMNS, rows)
+    write_csv('data.csv', CSV_HEADERS, rows)
 
 
 if __name__ == '__main__':

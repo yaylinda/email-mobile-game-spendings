@@ -55,6 +55,7 @@ TOP_GAMES = {
 
 OTHER_GAMES = [
     '1945 - Airplane',
+    '94%',
     'A Dark Room',
     'Ball Sort Puzzle',
     'Beginner\'s Pack',
@@ -91,6 +92,8 @@ OTHER_GAMES = [
     'Sudoku.com',
     'Tamagotchi Classic',
     'The Room',
+    'Threes!',
+    'Tiny Tower',
     'Transistor',
     'Trivia Crack',
     'UniWar',
@@ -100,7 +103,21 @@ OTHER_GAMES = [
     'projekt',
 ]
 
-COLUMNS = [
+NON_GAMES = [
+    'Apple',
+    'Authenticator App',
+    'Geekbench',
+    'Google Play',
+    'HBO NOW',
+    'iCloud',
+    'Life Cycle',
+    "Reddit",
+    'Spark Mail',
+    'Weather',
+    'YouTube',
+]
+
+CSV_HEADERS = [
     'store',
     'date',
     'item',

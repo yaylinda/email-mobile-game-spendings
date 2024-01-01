@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Dict
 
-from common import COLUMNS, TAX_RATE, TOP_GAMES, OTHER_GAMES, print_warning
+from common import CSV_HEADERS, TAX_RATE, TOP_GAMES, OTHER_GAMES, print_warning, \
+    NON_GAMES
 
 
 class PurchasedItem:
@@ -20,7 +21,7 @@ class PurchasedItem:
     def normalize_to_dict(self) -> Dict[str, str | float]:
         datum = {}
         
-        for column in COLUMNS:
+        for column in CSV_HEADERS:
             match column:
                 case 'store':
                     datum[column] = self._store_name
@@ -52,8 +53,12 @@ class PurchasedItem:
         for keyword in OTHER_GAMES:
             if keyword in self._item_name:
                 return "Other"
+            
+        for keyword in NON_GAMES:
+            if keyword in self._item_name:
+                return ""
         
-        print_warning(self._store_name, f'"{self._item_name}" did not match any games')
+        print_warning(self._store_name, f'"{self._item_name}" did not match any known keywords')
         return ""
     
     def __repr__(self):
