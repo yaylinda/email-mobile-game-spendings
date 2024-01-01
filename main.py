@@ -35,7 +35,8 @@ def main():
         mbox.close()
 
     # Now we can try to extract purchases from the emails
-    gplay.parse_messages()
+    apple.get_messages_content()
+    gplay.get_messages_content()
 
     # Done using apple/gplay mboxes. Close them.
     apple.close_mbox()
