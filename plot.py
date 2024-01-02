@@ -57,7 +57,10 @@ def plot(filename: str):
         title='',
         loc='upper center',
         ncol=2,
-        bbox_to_anchor=(0.5, 0.95)
+        bbox_to_anchor=(0.5, 0.925),
+        handleheight=1.75,
+        borderpad=1.5,
+        labelspacing=1.25
     )
     plt.setp(legend.get_texts(), fontsize=12)
     
@@ -90,6 +93,8 @@ def plot(filename: str):
     plt.tick_params(axis='x', which='both', length=0)
     plt.tick_params(axis='y', which='both', length=0)
     plt.tight_layout()
+    
+    plt.savefig('plot.png', dpi=300)
     
     # Show the plot
     plt.show()
