@@ -26,13 +26,6 @@ def plot(filename: str):
     pivot_data = pivot_data[
         sorted(pivot_data.columns, key=lambda x: (x != 'Other', x))]
     
-    # Calculating the sum of spendings for each category
-    category_sums = pivot_data.sum(axis=0)
-    
-    # Creating custom labels for the legend with category names and their respective total spendings
-    legend_labels = [f"{cat}: ${total:.2f}" for cat, total in
-                     category_sums.items()]
-    
     # Choosing a colormap with more distinguishable colors
     # color_map = plt.cm.get_cmap('tab20', len(aggregated_data.columns))
     color_map = plt.colormaps['tab20']
@@ -49,9 +42,22 @@ def plot(filename: str):
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
     
-    # Only show ticks on the left and bottom spines
-    ax.yaxis.set_ticks_position('left')
-    ax.xaxis.set_ticks_position('bottom')
+    # Calculating the sum of spendings for each category
+    category_sums = pivot_data.sum(axis=0)
+    
+    # Creating custom labels for the legend with category names and their respective total spendings
+    legend_labels = [f"{cat}: ${total:.2f}" for cat, total in
+                     category_sums.items()]
+    
+    # Creating and adjusting the legend within the plot area
+    legend = ax.legend(
+        legend_labels,
+        title='',
+        loc='upper center',
+        ncol=2,
+        bbox_to_anchor=(0.5, 0.95)
+        )
+    plt.setp(legend.get_texts(), fontsize=12)
     
     # Adjusting x-axis labels (years)
     ax.set_xticklabels(
@@ -74,13 +80,6 @@ def plot(filename: str):
     plt.xlabel('')
     plt.ylabel('Amount Spent (USD)')
     plt.tick_params(axis='x', which='both', length=0)
-    
-    # Adjusting legend to display only category names
-    plt.legend(
-        legend_labels,
-        title='',
-        loc='upper left'
-    )
     plt.tight_layout()
     
     # Show the plot
