@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.24.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "email-mobile-game-spendings"
+version = "0.1.0"
+description = "Generate a spending dataset from App Store / Google Play receipt emails (mbox exports)."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "beautifulsoup4>=4.12.0",
+  "lxml>=5.0.0",
+]
+
+[project.optional-dependencies]
+plot = [
+  "pandas>=2.2.0",
+  "matplotlib>=3.8.0",
+]
+
+[project.scripts]
+email-mobile-game-spendings = "email_mobile_game_spendings.cli:main"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/email_mobile_game_spendings"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

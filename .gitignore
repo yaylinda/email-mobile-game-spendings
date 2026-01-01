@@ -1,5 +1,27 @@
 .DS_Store
+
+# Email exports / private data
 *.mbox
-.idea
-.venv
-__pycache__
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# uv
+.uv/
+
+# IDEs
+.idea/
+.vscode/
+
+# Generated outputs
+/data.csv
+/plot.png
+/data/
